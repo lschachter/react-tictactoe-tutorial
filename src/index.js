@@ -4,7 +4,7 @@ import './index.css';
 
 function Square(props) {
   return (
-    <button className="square" key={props.value} onClick={props.onClick}>
+    <button className={props.className} key={props.value} onClick={props.onClick}>
       {props.value}
     </button>
   );
@@ -12,10 +12,12 @@ function Square(props) {
 
 class Board extends React.Component {
   renderSquare(i) {
+    let wins = this.props.winner;
     return (
       <Square 
         value={this.props.squares[i]}
         key={i}
+        className={(i === wins[0] || i === wins[1] || i === wins[2]) ? 'square winning-move' : 'square'}
         onClick = {() => this.props.onClick(i)} 
       />
     );
@@ -104,7 +106,7 @@ class Game extends React.Component {
         'Go to game start';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          <button className={(move === this.state.stepNumber) ? 'current-move' : ''} onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>          
       );
     });
@@ -123,6 +125,7 @@ class Game extends React.Component {
         <div className="game-board">
           <Board 
             squares={current.squares}
+            winner={(winner) ? winner : [-1,-1,-1]}
             onClick={(i) => this.handleClick(i)}
           />
         </div>
