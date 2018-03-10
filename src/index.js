@@ -110,7 +110,7 @@ class Game extends React.Component {
       let moveClass = (move === this.state.stepNumber) ? 'current-move' : '';
 
       let position;
-      if (move === 0) {
+      if (!move) {
         position = '';
       } else {
         let index = compareHistories(history[move - 1].squares, step.squares)
@@ -132,7 +132,7 @@ class Game extends React.Component {
     let status;
     if (winner) {
       status = 'Winner: ' + (this.state.xIsNext ? 'O' : 'X');
-    } else if (moves.length === 10) {
+    } else if (this.state.stepNumber === 9) {
       status = "It's a draw";
     } else {
       status = 'Next player: '+ (this.state.xIsNext ? 'X' : 'O');
